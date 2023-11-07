@@ -40,8 +40,8 @@ public class Persona {
     private Student student;
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private Profesor profesor;
-
-
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Empleado empleado;
 
     public Persona(PersonInputDto personInputDto) {
         this.id_persona = personInputDto.getId_persona();
