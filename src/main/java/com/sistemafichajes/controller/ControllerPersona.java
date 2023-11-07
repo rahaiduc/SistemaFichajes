@@ -1,7 +1,6 @@
 package com.sistemafichajes.controller;
 
 import com.sistemafichajes.application.impl.PersonServiceImpl;
-import com.sistemafichajes.application.interfaces.UserClient;
 import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
 import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
 import com.sistemafichajes.domain.CustomError;
@@ -27,8 +26,7 @@ public class ControllerPersona {
     @Autowired
     PersonServiceImpl personService;
 
-    @Autowired
-    UserClient userClient;
+
 
     @PostMapping("person")
     public ResponseEntity<PersonOutputDto> addPerson(@Valid @RequestBody PersonInputDto person) {

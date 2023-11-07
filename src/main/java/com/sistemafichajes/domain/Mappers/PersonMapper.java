@@ -15,7 +15,5 @@ public interface PersonMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updatePersonFromDto(PersonInputDto dto, @MappingTarget Persona entity);
 
-    PersonaEstudianteOutputDto personaToEstudianteDto(Persona p);
 
-    PersonaProfesorOutputDto personaToProfesor(Persona p);
 }
