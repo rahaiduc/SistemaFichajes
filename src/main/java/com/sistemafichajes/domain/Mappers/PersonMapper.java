@@ -1,8 +1,6 @@
 package com.sistemafichajes.domain.Mappers;
 
 import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
-import com.sistemafichajes.controller.dto.outputs.PersonaEstudianteOutputDto;
-import com.sistemafichajes.controller.dto.outputs.PersonaProfesorOutputDto;
 import com.sistemafichajes.domain.Persona;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

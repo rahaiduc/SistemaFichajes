@@ -1,7 +1,5 @@
 package com.sistemafichajes.domain.Mappers;
 
-import com.sistemafichajes.controller.dto.inputs.ProfesorInputDto;
-import com.sistemafichajes.domain.Profesor;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

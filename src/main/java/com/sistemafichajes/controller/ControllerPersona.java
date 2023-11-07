@@ -4,7 +4,6 @@ import com.sistemafichajes.application.impl.PersonServiceImpl;
 import com.sistemafichajes.application.interfaces.UserClient;
 import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
 import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
-import com.sistemafichajes.controller.dto.outputs.ProfesorOutputDto;
 import com.sistemafichajes.domain.CustomError;
 import com.sistemafichajes.domain.Persona;
 import jakarta.persistence.EntityNotFoundException;
@@ -94,20 +93,12 @@ public class ControllerPersona {
 
 
 
-    @GetMapping("person/{id}")
-    public PersonOutputDto getPersonById(@PathVariable String id) {
-        return personService.searchPersonById(id);
-    }
-
     @GetMapping("person/nombre/{nombre}")
     public List<Persona> getPersonByName(@PathVariable String nombre) {
         return personService.getPersonByName(nombre);
     }
 
-    @GetMapping("person/profesor/{id}")
-    public ProfesorOutputDto getProfesorOutputById(@PathVariable int id){
-        return userClient.getProfesor(id);
-    }
+
 
     @GetMapping("person/getall")
     public List<PersonOutputDto> getAllPerson() {
