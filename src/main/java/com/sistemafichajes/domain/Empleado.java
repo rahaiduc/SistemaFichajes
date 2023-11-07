@@ -1,5 +1,6 @@
 package com.sistemafichajes.domain;
 
+import com.sistemafichajes.controller.dto.outputs.EmpleadoOutputDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name="Empleado")
@@ -31,5 +30,15 @@ public class Empleado {
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'FRONT'", nullable = false)
     private BranchType branch;
 
+    @OneToMany(mappedBy = "id_empleado", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Fichaje> fichajes=new HashSet<>();
+
+    public EmpleadoOutputDto EmpleadoToEmpleadoOutput(){
+        return new EmpleadoOutputDto(
+                this.id_empleado,
+                this.persona.getId_persona(),
+                this.branch
+        );
+    }
 
 }
