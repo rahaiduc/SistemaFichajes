@@ -1,9 +1,16 @@
 package com.sistemafichajes.controller;
 
+import com.sistemafichajes.application.impl.EmpleadoServiceImpl;
+import com.sistemafichajes.application.impl.FichajeServiceImpl;
 import com.sistemafichajes.application.impl.PersonServiceImpl;
+import com.sistemafichajes.controller.dto.inputs.EmpleadoInputDto;
+import com.sistemafichajes.controller.dto.inputs.FichajeInputDto;
 import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
+import com.sistemafichajes.controller.dto.outputs.EmpleadoOutputDto;
+import com.sistemafichajes.controller.dto.outputs.FichajeOutputDto;
 import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
 import com.sistemafichajes.domain.CustomError;
+import com.sistemafichajes.domain.Fichaje;
 import com.sistemafichajes.domain.Persona;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -21,51 +28,58 @@ import java.net.URI;
 import java.util.*;
 
 @RestController
-public class ControllerPersona {
+@RequestMapping("/empleado")
+public class ControllerEmpleado {
 
     @Autowired
-    PersonServiceImpl personService;
+    EmpleadoServiceImpl empleadoService;
+    @Autowired
+    FichajeServiceImpl fichajeService;
 
 
 
-    @PostMapping("person")
-    public ResponseEntity<PersonOutputDto> addPerson(@Valid @RequestBody PersonInputDto person) {
-            URI location = URI.create("/persona");
-        return ResponseEntity.created(location).body(personService.addPerson(person));
+    @PostMapping
+    public ResponseEntity<EmpleadoOutputDto> addEmpleado(@Valid @RequestBody EmpleadoInputDto empleadoInputDto) {
+        URI location = URI.create("/empleado");
+        return ResponseEntity.created(location).body(empleadoService.addEmpleado(empleadoInputDto));
     }
 
-    @GetMapping("person/{id}")
-    public PersonOutputDto getPersonById(@PathVariable String id) {
-        return personService.getPersonById(id);
+   /* @GetMapping("empleado/nombre/{nombre}")
+    public List<EmpleadoOutputDto> getEmpleadoByName(@PathVariable String nombre) {
+        return empleadoService.getEmpleadorById(nombre);
+    }*/
+
+    @GetMapping("/{id}")
+    public EmpleadoOutputDto getEmpleadoById(@PathVariable String id) {
+        return empleadoService.getEmpleadoById(id);
     }
 
-
-    @GetMapping("person/nombre/{nombre}")
-    public List<Persona> getPersonByName(@PathVariable String nombre) {
-        return personService.getPersonByName(nombre);
+    @GetMapping("/getall")
+    public List<EmpleadoOutputDto> getAllEmpleado() {
+        return empleadoService.getAllEmpleado();
     }
 
-
-
-    @GetMapping("person/getall")
-    public List<PersonOutputDto> getAllPerson() {
-        return personService.getAllPersons();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EmpleadoOutputDto> deleteEmpleadoById(@PathVariable String id) {
+        EmpleadoOutputDto eod=empleadoService.getEmpleadoById(id);
+        empleadoService.deleteEmpleadoById(id);
+        return ResponseEntity.ok().body(eod);
     }
 
-    @DeleteMapping("person/{id}")
-    public ResponseEntity<PersonOutputDto> deletePersonById(@PathVariable String id) {
-        PersonOutputDto pod=personService.getPersonById(id);
-        personService.deletePersonById(id);
-        return ResponseEntity.ok().body(pod);
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpleadoOutputDto> updateEmpleado(@PathVariable String id,@RequestBody EmpleadoInputDto empleadoInputDto) {
+        empleadoInputDto.setId_empleado(id);
+        return ResponseEntity.ok().body(empleadoService.updateEmpleado(empleadoInputDto));
     }
 
-    @PutMapping("person/{id}")
-    public ResponseEntity<PersonOutputDto> updatePerson(@PathVariable String id,@RequestBody PersonInputDto person) {
-        person.setId_persona(id);
-        return ResponseEntity.ok().body(personService.updatePerson(person));
+    //FICHAJES
+    @PostMapping("/fichaje/{id}")
+    public FichajeOutputDto addfichaje(@Valid @PathVariable String id) {
+        URI location = URI.create("/empleado");
+        return fichajeService.addFichaje(id);
     }
 
-
+    //CONTROL DE EXCEPCIONES
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -122,7 +136,4 @@ public class ControllerPersona {
                 .body(ce);
     }
 
-
-
 }
-

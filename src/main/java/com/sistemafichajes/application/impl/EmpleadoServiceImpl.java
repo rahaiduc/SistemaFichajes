@@ -9,13 +9,15 @@ import com.sistemafichajes.repository.EmpleadoRepository;
 import com.sistemafichajes.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-public class EmpleadoService {
+@Service
+public class EmpleadoServiceImpl {
 
     @Autowired
     private PersonRepository personRepository;
@@ -38,7 +40,7 @@ public class EmpleadoService {
         return empleadoRepository.save(newEmpleado).EmpleadoToEmpleadoOutput();
     }
 
-    public EmpleadoOutputDto getEmpleadorById(String id) {
+    public EmpleadoOutputDto getEmpleadoById(String id) {
         return empleadoRepository.findById(id).orElseThrow().EmpleadoToEmpleadoOutput();
     }
 

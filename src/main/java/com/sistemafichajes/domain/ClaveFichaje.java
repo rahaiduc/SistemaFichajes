@@ -17,12 +17,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClaveFichaje implements Serializable {
-    private String employeeId;
+    private String id_empleado;
     private long timeEntry;
     private long timeExit;
 
-    ClaveFichaje(String employeeId){
-        this.employeeId=employeeId;
+    ClaveFichaje(String id_empleado){
+        this.id_empleado=id_empleado;
         this.timeEntry=new Date().getTime();
         this.timeExit=0;
     }

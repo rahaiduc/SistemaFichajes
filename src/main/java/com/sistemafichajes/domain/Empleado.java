@@ -30,7 +30,7 @@ public class Empleado {
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'FRONT'", nullable = false)
     private BranchType branch;
 
-    @OneToMany(mappedBy = "id_empleado", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Fichaje> fichajes=new HashSet<>();
 
     public EmpleadoOutputDto EmpleadoToEmpleadoOutput(){

@@ -1,13 +1,13 @@
 package com.sistemafichajes.domain;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.sistemafichajes.controller.dto.outputs.EmpleadoOutputDto;
+import com.sistemafichajes.controller.dto.outputs.FichajeOutputDto;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 
@@ -18,10 +18,27 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fichaje {
-    @EmbeddedId
-    private ClaveFichaje clave;
+    @Id
+    @GeneratedValue(generator = "custom-string-id-generator")
+    @GenericGenerator(name = "custom-string-id-generator", strategy = "com.sistemafichajes.domain.GeneradoresId.GeneradorIdPersona")
+    private String id_fichaje;
 
-    Fichaje(String employeeId){
-        this.clave=new ClaveFichaje(employeeId);
+    @ManyToOne
+    private Empleado empleado;
+
+
+    private long timeEntry;
+
+
+    private long timeExit;
+
+    public FichajeOutputDto FichajeToFichajeOutput(){
+        return new FichajeOutputDto(
+                this.id_fichaje,
+                this.empleado.getId_empleado(),
+                new Date(timeEntry),
+                new Date(timeExit)
+        );
     }
+
 }

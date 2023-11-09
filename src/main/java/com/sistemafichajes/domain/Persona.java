@@ -5,7 +5,6 @@ import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Persona {
-    @jakarta.persistence.Id
     @Id
     @Column(name = "id_persona")
     @GeneratedValue(generator = "custom-string-id-generator")
