@@ -32,7 +32,7 @@ public class EmpleadoServiceImpl {
             throw new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY,"Algun/os valores no pueden ser nulos");
         }
         Persona persona=personRepository.findById(empleadoInputDto.getId_persona()).orElseThrow();
-        if (persona.getEmpleado() != null && persona.getEmpleado().getId_empleado() != null)throw new NoSuchElementException("Esta persona ya tiene un empleado asignado");
+        if (persona.getEmpleado() != null && persona.getEmpleado().getId_empleado() != null)throw new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY,"Esta persona ya tiene un empleado asignado");
 
         Empleado newEmpleado= EmpleadoMapper.INSTANCE.empleadoInputToEmpleado(empleadoInputDto);
         newEmpleado.setPersona(persona);

@@ -28,7 +28,7 @@ public class Empleado {
     private Persona persona;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10) DEFAULT 'FRONT'", nullable = false)
+    @Column(columnDefinition = "VARCHAR(10) DEFAULT 'FRONT'")
     private BranchType branch;
 
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.REMOVE, orphanRemoval = true)
