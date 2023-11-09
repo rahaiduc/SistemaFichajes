@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="Empleado")
@@ -37,7 +38,8 @@ public class Empleado {
         return new EmpleadoOutputDto(
                 this.id_empleado,
                 this.persona.getId_persona(),
-                this.branch
+                this.branch,
+                this.fichajes.stream().map(Fichaje::FichajeToFichajeOutput).collect(Collectors.toSet())
         );
     }
 
