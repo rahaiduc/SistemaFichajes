@@ -84,7 +84,11 @@ public class ControllerEmpleado {
         URI location = URI.create("/empleado");
         return fichajeService.getFichajeEntrada(id);
     }
-
+    @GetMapping ("/mostrarfichajes/{id}")
+    public List<FichajeOutputDto> getAllFichajes(@Valid @PathVariable String id) {
+        URI location = URI.create("/empleado");
+        return fichajeService.getAllFichajes(id);
+    }
     //CONTROL DE EXCEPCIONES
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

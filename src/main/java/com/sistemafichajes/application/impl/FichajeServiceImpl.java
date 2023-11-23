@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class FichajeServiceImpl {
@@ -46,5 +48,10 @@ public class FichajeServiceImpl {
             fichajeRepository.save(fichaje);
         }
         return fichaje.FichajeToFichajeOutput();
+    }
+
+    public List<FichajeOutputDto> getAllFichajes(String id){
+        Empleado empleado=empleadoRepository.findById(id).orElseThrow(()->new NoSuchElementException("No existe el empleado"));
+        return empleado.getFichajes().stream().map(Fichaje::FichajeToFichajeOutput).collect(Collectors.toList());
     }
 }
