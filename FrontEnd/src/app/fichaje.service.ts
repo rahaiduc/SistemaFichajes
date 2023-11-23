@@ -14,4 +14,11 @@ export class FichajeService {
   obtenerFichajes(): Observable<any> {
     return this.http.get(`${this.baseUrl}/empleado/mostrarfichajes/1`);
   }
+  registrarEntrada():Observable<any> {
+    return this.http.get(`${this.baseUrl}/empleado/addfichaje/1`);
+  }
+
+  registrarSalida():Observable<any> {
+    return this.http.get(`${this.baseUrl}/empleado/fichaje/1`);
+  }
 }

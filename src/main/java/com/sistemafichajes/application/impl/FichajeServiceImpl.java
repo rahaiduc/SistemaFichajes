@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,13 +31,17 @@ public class FichajeServiceImpl {
     EmpleadoRepository empleadoRepository;
 
     public FichajeOutputDto addFichaje(String empleadoId) {
+        Fichaje fichaje=fichajeRepository.findTopByEmpleadoOrderByTimeEntryDesc(empleadoId).orElse(null);
+        if(fichaje!=null && fichaje.getTimeExit()==0){
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,"Ya se ha registrado una entrada. Registra la salida del ultimo");
+        }
         Empleado empleado=empleadoRepository.findById(empleadoId).orElseThrow();
 
-        Fichaje fichaje= new Fichaje();
-        fichaje.setEmpleado(empleado);
-        fichaje.setTimeEntry(new Date().getTime());
-        fichaje.setTimeExit(0);
-        return fichajeRepository.save(fichaje).FichajeToFichajeOutput();
+        Fichaje fichajeNuevo= new Fichaje();
+        fichajeNuevo.setEmpleado(empleado);
+        fichajeNuevo.setTimeEntry(new Date().getTime());
+        fichajeNuevo.setTimeExit(0);
+        return fichajeRepository.save(fichajeNuevo).FichajeToFichajeOutput();
     }
 
     public FichajeOutputDto getFichajeEntrada(String empleadoId) {
@@ -52,6 +57,6 @@ public class FichajeServiceImpl {
 
     public List<FichajeOutputDto> getAllFichajes(String id){
         Empleado empleado=empleadoRepository.findById(id).orElseThrow(()->new NoSuchElementException("No existe el empleado"));
-        return empleado.getFichajes().stream().map(Fichaje::FichajeToFichajeOutput).collect(Collectors.toList());
+        return empleado.getFichajes().stream().map(Fichaje::FichajeToFichajeOutput).sorted(Comparator.comparing(FichajeOutputDto::getTimeExit).reversed()   ).collect(Collectors.toList());
     }
 }

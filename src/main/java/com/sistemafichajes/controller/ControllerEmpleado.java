@@ -74,7 +74,7 @@ public class ControllerEmpleado {
     }
 
     //FICHAJES
-    @PostMapping("/fichaje/{id}")
+    @GetMapping("/addfichaje/{id}")
     public FichajeOutputDto addfichaje(@Valid @PathVariable String id) {
         URI location = URI.create("/empleado");
         return fichajeService.addFichaje(id);
