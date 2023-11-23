@@ -20,6 +20,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.net.URI;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class ControllerPersona {
 

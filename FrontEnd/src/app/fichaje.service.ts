@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FichajeService {
-  private baseUrl = 'localhost:9080'; // Reemplaza con la URL de tu backend
+  private baseUrl = 'http://localhost:9080'; // Reemplaza con la URL de tu backend
 
   constructor(private http: HttpClient) { }
 
