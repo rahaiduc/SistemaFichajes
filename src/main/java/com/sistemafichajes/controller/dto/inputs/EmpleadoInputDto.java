@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class EmpleadoInputDto {
     private String id_empleado;
     private String id_persona;
-    private BranchType branch;
+    private String branch;
 }

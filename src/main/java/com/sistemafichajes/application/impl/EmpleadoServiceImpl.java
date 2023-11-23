@@ -24,7 +24,7 @@ public class EmpleadoServiceImpl {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
-
+    String noEncontrado="404 - Empleado no encontrado";
 
     public EmpleadoOutputDto addEmpleado(EmpleadoInputDto empleadoInputDto) {
         if( empleadoInputDto.getBranch()==null){
@@ -41,12 +41,14 @@ public class EmpleadoServiceImpl {
     }
 
     public EmpleadoOutputDto getEmpleadoById(String id) {
-        return empleadoRepository.findById(id).orElseThrow().EmpleadoToEmpleadoOutput();
+        return empleadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException(noEncontrado)).EmpleadoToEmpleadoOutput();
     }
 
     public void deleteEmpleadoById(String id) {
-        empleadoRepository.findById(id).orElseThrow();
-        empleadoRepository.deleteById(id);
+        Empleado empleado = empleadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException(noEncontrado));
+        Persona persona=personRepository.findById(empleado.getPersona().getId_persona()).orElseThrow();
+        persona.setEmpleado(null);
+        personRepository.save(persona);
     }
 
     public List<EmpleadoOutputDto> getAllEmpleado() {
@@ -57,7 +59,7 @@ public class EmpleadoServiceImpl {
     }
 
     public EmpleadoOutputDto updateEmpleado(EmpleadoInputDto empleadoInputDto) {
-        Empleado e=empleadoRepository.findById(empleadoInputDto.getId_empleado()).orElseThrow();
+        Empleado e=empleadoRepository.findById(empleadoInputDto.getId_empleado()).orElseThrow(() -> new NoSuchElementException(noEncontrado));
         EmpleadoMapper.INSTANCE.updateFromEmpleadoDto(empleadoInputDto,e);
         return empleadoRepository.save(e)
                 .EmpleadoToEmpleadoOutput();

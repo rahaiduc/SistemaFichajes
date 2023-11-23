@@ -14,7 +14,7 @@ import org.mapstruct.factory.Mappers;
 public interface EmpleadoMapper {
     EmpleadoMapper INSTANCE= Mappers.getMapper(EmpleadoMapper.class);
 
-    Empleado empleadoInputToEmpleado(EmpleadoInputDto profesorInputDto);
+    Empleado empleadoInputToEmpleado(EmpleadoInputDto empleadoInputDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromEmpleadoDto(EmpleadoInputDto dto, @MappingTarget Empleado entity);

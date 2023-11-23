@@ -1,6 +1,11 @@
 package com.sistemafichajes;
 
+import com.sistemafichajes.controller.dto.inputs.EmpleadoInputDto;
+import com.sistemafichajes.domain.BranchType;
+import com.sistemafichajes.domain.Empleado;
+import com.sistemafichajes.domain.Mappers.EmpleadoMapper;
 import com.sistemafichajes.domain.Persona;
+import com.sistemafichajes.repository.EmpleadoRepository;
 import com.sistemafichajes.repository.PersonRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,8 @@ public class SistemaFichajes {
 
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    EmpleadoRepository empleadoRepository;
 
     @PostConstruct
     public void populateDb() {
@@ -36,7 +43,10 @@ public class SistemaFichajes {
         personRepository.save(new Persona("10","user10","pass10", "name10","Fernandez","abc@gmail.com","abc@gmail.com","Vallecas", new Date()));
         personRepository.save(new Persona("11","user11","pass11", "name11","Gutierrez","abc@gmail.com","abc@gmail.com","Vallecas", new Date()));
         personRepository.save(new Persona("12","user12","pass12", "name12","San Martin","abc@gmail.com","abc@gmail.com","Vallecas", new Date()));
-
+        EmpleadoInputDto empleadoInputDto=new EmpleadoInputDto("1","1", "Front");
+        Empleado empleado= EmpleadoMapper.INSTANCE.empleadoInputToEmpleado(empleadoInputDto);
+        empleado.setPersona(personRepository.findById(empleadoInputDto.getId_persona()).orElseThrow());
+        empleadoRepository.save(empleado);
     }
 
 }

@@ -5,6 +5,7 @@ import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
 import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
 import com.sistemafichajes.domain.Mappers.PersonMapper;
 import com.sistemafichajes.domain.Persona;
+import com.sistemafichajes.repository.EmpleadoRepository;
 import com.sistemafichajes.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +23,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     PersonRepository personRepository;
-
+    @Autowired
+    EmpleadoRepository empleadoRepository;
+    @Autowired
+    EmpleadoServiceImpl empleadoService;
+    String noEncontrado="404 - Persona no encontrada";
 
     @Override
     public PersonOutputDto addPerson(PersonInputDto person) {
@@ -59,7 +65,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void deletePersonById(String id) {
-        personRepository.findById(id).orElseThrow();
+        Persona persona = personRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(noEncontrado));
+        if (persona.getEmpleado() != null && persona.getEmpleado().getId_empleado() != null)
+            empleadoService.deleteEmpleadoById(persona.getEmpleado().getId_empleado());
+
         personRepository.deleteById(id);
     }
     @Override

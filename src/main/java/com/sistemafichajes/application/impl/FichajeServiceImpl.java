@@ -36,4 +36,15 @@ public class FichajeServiceImpl {
         fichaje.setTimeExit(0);
         return fichajeRepository.save(fichaje).FichajeToFichajeOutput();
     }
+
+    public FichajeOutputDto getFichajeEntrada(String empleadoId) {
+        Fichaje fichaje=fichajeRepository.findTopByEmpleadoOrderByTimeEntryDesc(empleadoId).orElseThrow(()->new NoSuchElementException("No existe ningun fichaje"));
+        if(fichaje.getTimeExit()!=0){
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,"Hay que registrar la entrada");
+        }{
+            fichaje.setTimeExit(new Date().getTime());
+            fichajeRepository.save(fichaje);
+        }
+        return fichaje.FichajeToFichajeOutput();
+    }
 }

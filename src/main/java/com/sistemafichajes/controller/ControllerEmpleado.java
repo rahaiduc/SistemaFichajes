@@ -79,6 +79,12 @@ public class ControllerEmpleado {
         return fichajeService.addFichaje(id);
     }
 
+    @GetMapping ("/fichaje/{id}")
+    public FichajeOutputDto getFichajeEntrada(@Valid @PathVariable String id) {
+        URI location = URI.create("/empleado");
+        return fichajeService.getFichajeEntrada(id);
+    }
+
     //CONTROL DE EXCEPCIONES
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -105,8 +111,7 @@ public class ControllerEmpleado {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleNoSuchElementException() {
-        NoSuchElementException ne=new NoSuchElementException("404-Persona no encontrada");
+    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ne) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ne.getMessage());
