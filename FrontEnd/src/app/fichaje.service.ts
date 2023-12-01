@@ -19,6 +19,6 @@ export class FichajeService {
   }
 
   registrarSalida():Observable<any> {
-    return this.http.get(`${this.baseUrl}/empleado/fichaje/1`);
+    return this.http.post(`${this.baseUrl}/transaccion/1`,{});
   }
 }

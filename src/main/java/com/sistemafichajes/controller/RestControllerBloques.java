@@ -2,7 +2,6 @@ package com.sistemafichajes.controller;
 
 import com.sistemafichajes.Configuracion;
 import com.sistemafichajes.application.impl.ServiceBloques;
-import com.sistemafichajes.application.impl.ServiceMinado;
 import com.sistemafichajes.application.impl.ServiceNodo;
 import com.sistemafichajes.domain.blockchain.Bloque;
 import com.sistemafichajes.domain.blockchain.CadenaDeBloques;
@@ -22,20 +21,14 @@ public class RestControllerBloques {
 
 	private final ServiceBloques servicioBloques;
 	private final ServiceNodo servicioNodo;
-	private final ServiceMinado servicioMinado;
 
 	private List<Bloque> bufferBloques = new ArrayList<Bloque>();
 	
 	@Autowired
-	public RestControllerBloques(ServiceBloques servicioCadenaDeBloques, ServiceNodo servicioNodo,
-			ServiceMinado servicioMinado) {
+	public RestControllerBloques(ServiceBloques servicioCadenaDeBloques, ServiceNodo servicioNodo) {
 		this.servicioBloques = servicioCadenaDeBloques;
 		this.servicioNodo = servicioNodo;
-		this.servicioMinado = servicioMinado;
 
-		if (Configuracion.getInstancia().getMinar()) {
-			servicioMinado.startMinado();
-		}
 	}
 
 	/**

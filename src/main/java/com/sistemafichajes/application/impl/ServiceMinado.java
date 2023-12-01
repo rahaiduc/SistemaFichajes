@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sistemafichajes.Configuracion;
 import com.sistemafichajes.domain.blockchain.Bloque;
-import com.sistemafichajes.domain.blockchain.RegistroSaldos;
 import com.sistemafichajes.domain.blockchain.Transaccion;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service
+/*@Service
 public class ServiceMinado implements Runnable {
 
 	private final ServiceTransacciones servicioTransacciones;
 	private final ServiceNodo servicioNodo;
-	private final ServiceBloques servicioBloques;
 
 	private AtomicBoolean runMinado = new AtomicBoolean(false);
 
@@ -31,39 +29,39 @@ public class ServiceMinado implements Runnable {
 		this.servicioNodo = servicioNodo;
 		this.servicioBloques = servicioBloques;
 	}
-
-	/**
+*/
+	/*/**
 	 * Comenzar el servicio de minado
 	 */
-	public void startMinado() {
+	/*public void startMinado() {
 		if (runMinado.compareAndSet(false, true)) {
 			System.out.println("Comenzando minado...");
 			Thread thread = new Thread(this);
 			thread.start();
 		}
-	}
+	}*/
 
 	/**
 	 * Parar el servicio de minado
 	 */
-	public void pararMinado() {
+	/*public void pararMinado() {
 		System.out.println("Parando minado...");
 		runMinado.set(false);
-	}
+	}*/
 
 	/**
 	 * Parar el servicio de minado
 	 */
-	public void restartMinado() {
+	/*public void restartMinado() {
 		System.out.println("Restarting minado...");
 		this.pararMinado();
 		this.startMinado();		
-	}
+	}*/
 
 	/**
 	 * Busqueda de bloque valido y propagacion
 	 */
-	@Override
+	/*@Override
 	public void run() {
 		while (runMinado.get()) {
 			Bloque bloque = minarBloque();
@@ -81,12 +79,12 @@ public class ServiceMinado implements Runnable {
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Iterar nonce hasta que cumpla con la dificultad configurada
 	 */
-	private Bloque minarBloque() {
+	/*private Bloque minarBloque() {
 		long nonce = 0;
 
 		Bloque ultimoBloque = servicioBloques.getCadenaDeBloques().getUltimoBloque();
@@ -143,4 +141,4 @@ public class ServiceMinado implements Runnable {
 		return null;
 	}
 
-}
+}*/

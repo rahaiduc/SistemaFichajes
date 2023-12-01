@@ -8,7 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 /*
  * La cadena de bloques es esencialmente una lista de bloques enlazados ya que cada bloque tiene el identificador del bloque anterior.
  * */
-public class RegistroSaldos {
+/*public class RegistroSaldos {
 
 	// Registro de saldos <encoded public key, saldo>
 	private Hashtable<String, Double> saldos = new Hashtable<String, Double>();
@@ -74,4 +74,4 @@ public class RegistroSaldos {
 	private String convertirClaveAString(byte[] clave) {
 		return Base64.encodeBase64String(clave);
 	}
-}
+}*/

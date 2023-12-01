@@ -1,9 +1,12 @@
 package com.sistemafichajes.application.impl;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import com.sistemafichajes.domain.blockchain.PoolTransacciones;
+import com.sistemafichajes.Configuracion;
+import com.sistemafichajes.domain.blockchain.Bloque;
 import com.sistemafichajes.domain.blockchain.Transaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +17,13 @@ import org.springframework.web.client.RestTemplate;
 public class ServiceTransacciones {
 
 	// Pool de transacciones con transacciones pendientes de ser incluidas en un bloque
-	private PoolTransacciones poolTransacciones = new PoolTransacciones();
-	
-	@Autowired
-	public ServiceTransacciones() {
-	}
+	private List<Transaccion> poolTransacciones = new ArrayList<>();
+	/*Autowired
+	private ServiceBloques serviceBloques;*/
 
-	public PoolTransacciones getPoolTransacciones() {
+
+
+	public List<Transaccion> getPoolTransacciones() {
 		return poolTransacciones;
 	}
 
@@ -31,7 +34,26 @@ public class ServiceTransacciones {
 	 * @throws Exception 
 	 */
 	public synchronized void añadirTransaccion(Transaccion transaccion) throws Exception {
-		poolTransacciones.añadirTransaccion(transaccion);
+		if (transaccion.esValida()) {
+			/*if (poolTransacciones.size() < Configuracion.getInstancia().getMaxNumeroTransaccionesEnBloque() - 1) {
+				poolTransacciones.add(transaccion);
+			} else {
+				poolTransacciones.add(transaccion);
+				Bloque ultimoBloque = serviceBloques.getCadenaDeBloques().getUltimoBloque();
+				byte[] hashUltimoBloque =  ultimoBloque!= null
+						? ultimoBloque.getHash()
+						: null;
+				for(Transaccion t:poolTransacciones){
+					this.serviceBloques.getCadenaDeBloques().getFichajes().liquidarTransaccion(t);
+				}
+				Bloque bloque = new Bloque(hashUltimoBloque, poolTransacciones, 10);
+				serviceBloques.añadirBloque(bloque);
+				serviceNodo.emitirPeticionPostNodosVecinos("bloque", bloque);
+			}*/
+			poolTransacciones.add(transaccion);
+		}else {
+			throw new Exception("Transacción inválida");
+		}
 	}
 
 	/**
@@ -40,7 +62,7 @@ public class ServiceTransacciones {
 	 * @param transaccion Transaccion a ser eliminada
 	 */
 	public void eliminarTransaccion(Transaccion transaccion) {
-		poolTransacciones.eliminarTransaccion(transaccion);
+		poolTransacciones.remove(transaccion);
 	}
 
 	/**
@@ -50,7 +72,7 @@ public class ServiceTransacciones {
 	 * @return true si todas las transacciones est�n en el pool
 	 */
 	public boolean contieneTransacciones(Collection<Transaccion> transacciones) {
-		return poolTransacciones.contieneTransacciones(transacciones);
+		return poolTransacciones.containsAll(transacciones);
 	}
 	
 	/**
@@ -60,8 +82,11 @@ public class ServiceTransacciones {
 	 * @param restTemplate RestTemplate a usar
 	 */
 	public void obtenerPoolTransacciones(URL urlNodo, RestTemplate restTemplate) {
-		PoolTransacciones poolTransacciones = restTemplate.getForObject(urlNodo + "/transaccion", PoolTransacciones.class);
+		List<Transaccion> poolTransacciones = restTemplate.getForObject(urlNodo + "/transaccion", List.class);
 		this.poolTransacciones = poolTransacciones;
 		System.out.println("Obtenido pool de transacciones de nodo " + urlNodo + ".\n");
+	}
+	public boolean estaVacio() {
+		return this.poolTransacciones == null || this.poolTransacciones.isEmpty();
 	}
 }

@@ -12,7 +12,7 @@ public class CadenaDeBloques {
 	// Lista de bloques en la cadena ordenados por altura
 	private List<Bloque> bloques = new ArrayList<Bloque>();
 	// Saldos actuales de las cuentas
-	private RegistroSaldos saldos = new RegistroSaldos();
+	private RegistroFichajes fichajes = new RegistroFichajes();
 
 	public CadenaDeBloques() {
 	}
@@ -40,8 +40,8 @@ public class CadenaDeBloques {
 		return (estaVacia() ? 0 : this.bloques.size());
 	}
 
-	public RegistroSaldos getSaldos() {
-		return this.saldos;
+	public RegistroFichajes getFichajes() {
+		return this.fichajes;
 	}
 
 	/**
@@ -63,18 +63,9 @@ public class CadenaDeBloques {
 	 */
 	public void añadirBloque(Bloque bloque) throws Exception {
 
-		// iteramos y procesamos las transacciones. Si todo es correcto lo añadimos a la cadena
-		Iterator<Transaccion> itr = bloque.getTransacciones().iterator();
-
-		while (itr.hasNext()) {
-			Transaccion transaccion = (Transaccion) itr.next();
-			// actualizar saldos
-			saldos.liquidarTransaccion(transaccion);
-		}
-
 		this.bloques.add(bloque);
 
-		System.out.println(saldos.toString() + "\n");
+		System.out.println(fichajes.toString() + "\n");
 	}
 
 	@Override

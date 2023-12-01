@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import com.sistemafichajes.Configuracion;
+import com.sistemafichajes.domain.Fichaje;
 import com.sistemafichajes.domain.blockchain.utilidades.UtilidadesFirma;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -30,11 +31,8 @@ public class Transaccion {
 	// Clave pública del emisor de la transacción
 	private byte[] emisor;
 
-	// Clave pública del destinatario de la transacción
-	private byte[] destinatario;
-
 	// Valor a ser transferido
-	private double cantidad;
+	private Fichaje fichaje;
 
 	// Firma con la clave privada para verificar que la transacción fue realmente
 	// enviada por el emisor
@@ -48,11 +46,10 @@ public class Transaccion {
 	public Transaccion() {
 	}
 
-	public Transaccion(byte[] emisor, byte[] receptor, double cantidad, byte[] firma) {
+	public Transaccion(byte[] emisor, Fichaje fichaje, byte[] firma) {
 		this.esCoinbase = false;
 		this.emisor = emisor;
-		this.destinatario = receptor;
-		this.cantidad = cantidad;
+		this.fichaje = fichaje;
 		this.firma = firma;
 		this.timestamp = System.currentTimeMillis();
 		this.hash = calcularHashTransaccion();
@@ -61,8 +58,7 @@ public class Transaccion {
 	// coinbase
 	public Transaccion(byte[] receptor) {
 		this.esCoinbase = true;
-		this.destinatario = receptor;
-		this.cantidad = Configuracion.getInstancia().getCantidadCoinbase();
+		this.fichaje = new Fichaje();
 		this.timestamp = System.currentTimeMillis();
 		this.hash = calcularHashTransaccion();
 	}
@@ -83,20 +79,20 @@ public class Transaccion {
 		this.emisor = emisor;
 	}
 
-	public byte[] getDestinatario() {
+	/*public byte[] getDestinatario() {
 		return destinatario;
 	}
 
 	public void setDestinatario(byte[] destinatario) {
 		this.destinatario = destinatario;
+	}*/
+
+	public Fichaje getFichaje() {
+		return fichaje;
 	}
 
-	public double getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
+	public void setFichaje(Fichaje fichaje) {
+		this.fichaje = fichaje;
 	}
 
 	public byte[] getFirma() {
@@ -130,9 +126,8 @@ public class Transaccion {
 	 * @return byte[] Array de bytes representando el contenido de la transaccion
 	 */
 	public byte[] getContenidoTransaccion() {
-		byte[] contenido = ArrayUtils.addAll(String.valueOf(cantidad).getBytes());
+		byte[] contenido = ArrayUtils.addAll(String.valueOf(fichaje).getBytes());
 		contenido = ArrayUtils.addAll(contenido, emisor);
-		contenido = ArrayUtils.addAll(contenido, destinatario);
 		contenido = ArrayUtils.addAll(contenido, Longs.toByteArray(timestamp));
 		return contenido;
 	}
@@ -154,13 +149,8 @@ public class Transaccion {
 	 */
 	public boolean esValida() {
 
-		if (this.destinatario == null) {
-			System.out.println("Destinatario inválido");
-			return false;
-		}
-
-		if (this.cantidad > 0) {
-			System.out.println("Cantidad inválida");
+		if (this.fichaje ==null) {
+			System.out.println("Fichaje inválido");
 			return false;
 		}
 
@@ -175,7 +165,7 @@ public class Transaccion {
 		}
 
 		// no coinbase tx
-		if (!this.esCoinbase) {
+		/*if (!this.esCoinbase) {
 			if (this.emisor == null) {
 				System.out.println("Emisor inválido");
 				return false;
@@ -186,14 +176,7 @@ public class Transaccion {
 				System.out.println("Firma de transacción inválida");
 				return false;
 			}
-		}
-		// coinbase tx
-		else {
-			if (this.cantidad != Configuracion.getInstancia().getCantidadCoinbase()) {
-				System.out.println("Cantidad inválida");
-				return false;
-			}
-		}
+		}*/
 		return true;
 	}
 
@@ -216,8 +199,7 @@ public class Transaccion {
 
 	@Override
 	public String toString() {
-		return "{\nHash: " + Base64.encodeBase64String(hash) + ",\nEmisor: " + Base64.encodeBase64String(emisor) + ",\nDestinatario: "
-				+ Base64.encodeBase64String(destinatario) + ",\nCantidad: " + cantidad + ",\nFirma: " + Base64.encodeBase64String(firma)
+		return "{\nHash: " + Base64.encodeBase64String(hash) + ",\nEmisor: " + Base64.encodeBase64String(emisor) + ",\nFichaje: " + fichaje + ",\nFirma: " + Base64.encodeBase64String(firma)
 				+ ",\nTimestamp: " + new Date(timestamp) + "\n}";
 	}
 }

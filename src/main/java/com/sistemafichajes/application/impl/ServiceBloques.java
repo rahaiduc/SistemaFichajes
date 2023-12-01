@@ -1,12 +1,15 @@
 package com.sistemafichajes.application.impl;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import com.sistemafichajes.Configuracion;
 import com.sistemafichajes.domain.blockchain.Bloque;
 import com.sistemafichajes.domain.blockchain.CadenaDeBloques;
+import com.sistemafichajes.domain.blockchain.Transaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,14 +19,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ServiceBloques {
 
-	private final ServiceTransacciones servicioTransacciones;
+	@Autowired
+	private ServiceTransacciones servicioTransacciones;
 	
 	private CadenaDeBloques cadenaDeBloques = new CadenaDeBloques();
 
-	@Autowired
-	public ServiceBloques(ServiceTransacciones servicioTransacciones) {
-		this.servicioTransacciones = servicioTransacciones;
-	}
 
 	public CadenaDeBloques getCadenaDeBloques() {
 		return cadenaDeBloques;
@@ -38,10 +38,13 @@ public class ServiceBloques {
 	 */
 	public synchronized void añadirBloque(Bloque bloque) throws Exception {
 		if (validarBloque(bloque)) {
+			List<Transaccion> getPool = new ArrayList<>(servicioTransacciones.getPoolTransacciones());
+			bloque.setTransactions(getPool);
 			this.cadenaDeBloques.añadirBloque(bloque);
-			
 			// eliminar transacciones del pool excepto primer tx que es la coinbase
-			bloque.getTransacciones().subList(1, bloque.getTransacciones().size()).forEach(servicioTransacciones::eliminarTransaccion);
+			for (Transaccion t : getPool) {
+				servicioTransacciones.eliminarTransaccion(t);
+			}
 			
 			System.out.println("Bloque añadido a cadena de bloques.\n");
 		}
