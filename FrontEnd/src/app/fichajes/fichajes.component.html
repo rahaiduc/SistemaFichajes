@@ -17,22 +17,72 @@
     cursor: pointer;
   }
   /* Estilos para el título */
+
+
   h1 {
-    text-align: center;
+    display: inline;
+    position: relative;
+    font: 100px Helvetica, Sans-Serif;
+    letter-spacing: -5px;
+    color: rgba(0,0,255,0.5);
+  }
+
+  h1:after {
+    content: "Fichajes";
+    position: absolute; left: 10px; top: 5px;
+    color: rgba(255,0,0,0.5);
+  }
+  header {
+    background: rgba(0,0,0,0.7);
+    width: 100%;
+    position: absolute;
+    z-index: 100;
+  }
+
+  nav {
+    float: left;
+  }
+
+  nav ul {
+    list-style: none;
+    overflow: hidden;
+  }
+
+  nav ul li {
+    float: left;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+  nav ul li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul li:hover {
+    background: #ec23a2;
   }
 </style>
 
 <main class="main">
   <div class="content">
-    <div style="text-align:center">
-      <h1>Sistema de Fichajes</h1>
+    <div id="container">
+      <h1>Fichajes</h1>
+    </div>
+    <div style="padding-bottom: 5% ; padding-top: 5px">
+      <header>
+      <nav>
+        <ul>
+          <li><a href="/fichajes">Fichar</a></li>
+          <li><a href="/mostrarfichajes">Mostrar Fichajes</a></li>
+        </ul>
+      </nav>
+    </header>
     </div>
     <div class="button-container">
       <app-registrar-entrada></app-registrar-entrada>
       <app-registrar-salida></app-registrar-salida>
-      <app-mostrar-fichajes></app-mostrar-fichajes>
 
     </div>
-
   </div>
 </main>

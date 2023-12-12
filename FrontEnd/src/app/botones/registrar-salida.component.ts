@@ -1,25 +1,18 @@
 // registrar-salida.component.ts
 import {Component, OnInit} from '@angular/core';
-import {FichajeService} from "./fichaje.service";
-import {FichajeData} from "./fichaje.model";
+import {FichajeService} from "../fichaje.service";
+import {FichajeData} from "../fichaje.model";
 @Component({
   selector: 'app-registrar-salida',
-  template: '<button (click)="registrarSalida()">Registrar Salida</button>' +
-            '<div *ngIf="errorMensaje" class="error-message">\n' +
-            '    {{ errorMensaje }}\n' +
-            '</div>',
-  styles: [
-    `
-      .error-message {
-        color: red;
-        margin-top: 10px;
-      }
-    `,
-  ],
+  templateUrl: './botonSalida.html',
+  styleUrls: ['./Boton.css']
 })
 export class RegistrarSalidaComponent implements OnInit{
   fichaje: FichajeData= {} as FichajeData;
   errorMensaje: string = '';
+  showModal = false;
+  modalTitle = 'Éxito';
+  modalMessage = 'Se ha añadido el fichaje de salida';
   constructor(private fichajeService: FichajeService) { }
 
   ngOnInit(): void {}
@@ -28,11 +21,16 @@ export class RegistrarSalidaComponent implements OnInit{
     this.fichajeService.registrarSalida().subscribe(
       (data: FichajeData) => {
         this.fichaje = data;
+        this.showModal=true;
       },
       error => {
         this.errorMensaje = 'Hay que registrar primero la entrada';
         console.error('Error al obtener el fichaje', error);
       }
     );
+  }
+  closeModal() {
+    // Cierra el modal
+    this.showModal = false;
   }
 }

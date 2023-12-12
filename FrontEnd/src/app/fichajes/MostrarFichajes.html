@@ -1,0 +1,197 @@
+<style>
+  /* Estilos para los botones */
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  /* Estilos adicionales para cada botón (puedes personalizar según tus preferencias) */
+  .button-container button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+  }
+  /* Estilos para el título */
+
+
+  h1 {
+    display: inline;
+    position: relative;
+    font: 100px Helvetica, Sans-Serif;
+    letter-spacing: -5px;
+    color: rgba(0,0,255,0.5);
+  }
+
+  h1:after {
+    content: "Fichajes";
+    position: absolute; left: 10px; top: 5px;
+    color: rgba(255,0,0,0.5);
+  }
+  header {
+    background: rgba(0,0,0,0.7);
+    width: 100%;
+    position: absolute;
+    z-index: 100;
+  }
+
+  nav {
+    float: left;
+  }
+
+  nav ul {
+    list-style: none;
+    overflow: hidden;
+  }
+
+  nav ul li {
+    float: left;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+  nav ul li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  nav ul li:hover {
+    background: #ec23a2;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid purple;
+  }
+
+  thead th:nth-child(1) {
+    width: 30%;
+  }
+
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+
+  thead th:nth-child(3) {
+    width: 15%;
+  }
+
+  thead th:nth-child(4) {
+    width: 35%;
+  }
+
+  th, td {
+    padding: 20px;
+  }
+
+  /* typography */
+
+  html {
+    font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  }
+
+  thead th, tfoot th {
+    font-family: 'Rock Salt', cursive;
+  }
+
+  th {
+    letter-spacing: 2px;
+  }
+
+  td {
+    letter-spacing: 1px;
+  }
+
+  tbody td {
+    text-align: center;
+  }
+
+  tfoot th {
+    text-align: right;
+  }
+
+  /* graphics */
+
+  thead, tfoot {
+    background: url(leopardskin.jpg);
+    color: white;
+  }
+
+  thead th, tfoot th, tfoot td {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+    border: 3px solid purple;
+    text-shadow: 1px 1px 1px black;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: #ff33cc;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #e495e4;
+  }
+
+  tbody tr {
+    background-image: url(noise.png);
+  }
+
+  table {
+    background-color: #ff33cc;
+  }
+
+  /* caption */
+
+  caption {
+    font-family: 'Rock Salt', cursive;
+    padding: 20px;
+    font-style: italic;
+    caption-side: bottom;
+    color: #666;
+    text-align: right;
+    letter-spacing: 1px;
+  }
+
+
+</style>
+
+<main class="main">
+  <div class="content">
+    <div id="container">
+      <h1>Fichajes</h1>
+    </div>
+    <div style="padding-bottom: 5% ; padding-top: 5px">
+      <header>
+        <nav>
+          <ul>
+            <li><a href="/fichajes">Fichar</a></li>
+            <li><a href="/mostrarfichajes">Mostrar Fichajes</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+    <table *ngIf="fichajes && fichajes.length > 0">
+            <thead>
+             <tr>
+               <th>ID</th>
+               <th>Empleado ID</th>
+               <th>Fecha Entrada</th>
+               <th>Fecha Salida</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fichaje of fichajes">
+                  <td>{{ fichaje.id_fichaje }}</td>
+                  <td>{{ fichaje.id_empleado }}</td>
+                <td>{{ fichaje.timeEntry | date:'short' }}</td>
+                <td>{{ fichaje.timeExit | date:'short' }}</td>
+                </tr>
+            </tbody>
+    </table>
+  </div>
+</main>

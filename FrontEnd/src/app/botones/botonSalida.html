@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <button (click)="registrarSalida()">
+    REGISTRAR SALIDA
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</div>
+<app-modal *ngIf="showModal" [title]="modalTitle" [message]="modalMessage" (click)="closeModal()"></app-modal>
+<div style="padding-top: 10%" *ngIf="errorMensaje" class="error-message">
+    {{ errorMensaje }}
+</div>
