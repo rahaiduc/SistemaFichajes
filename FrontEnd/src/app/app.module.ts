@@ -18,6 +18,7 @@ import {ModalComponent} from "./modal.component";
 
 @NgModule({
   declarations: [
+    ModalComponent,
     AppComponent,
     RegistrarEntradaComponent,
     RegistrarSalidaComponent,

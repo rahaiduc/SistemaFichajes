@@ -10,6 +10,7 @@ import {FichajeData} from "../fichaje.model";
 export class RegistrarEntradaComponent implements OnInit{
   fichaje: FichajeData= {} as FichajeData;
   errorMensaje: string = '';
+  exitoMensaje: string = '';
   showModal = false;
   modalTitle = 'Éxito';
   modalMessage = 'Se ha añadido el fichaje de entrada';
@@ -18,14 +19,17 @@ export class RegistrarEntradaComponent implements OnInit{
 
   ngOnInit(): void {}
   registrarEntrada() {
+    this.exitoMensaje = '';
     this.errorMensaje = '';
     this.fichajeService.registrarEntrada().subscribe(
       (data: FichajeData) => {
         this.fichaje = data;
-        this.showModal=true;
+        this.exitoMensaje = '¡Se ha añadido el fichaje de entrada!';
+        this.errorMensaje = '';
       },
       error => {
         this.errorMensaje = 'Ya se ha registrado una entrada. Registra la salida del ultimo';
+        this.exitoMensaje = '';
         console.error('Error al obtener el fichaje', error);
       }
     );

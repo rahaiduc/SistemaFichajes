@@ -8,6 +8,9 @@
   </button>
 </div>
 <app-modal *ngIf="showModal" [title]="modalTitle" [message]="modalMessage" (click)="closeModal()"></app-modal>
-<div style="padding-top: 10%" *ngIf="errorMensaje" class="error-message">
-    {{ errorMensaje }}
+<div style="padding-top: 10%" *ngIf="errorMensaje">
+</div>
+<div style="padding-top: 10%; font-weight: bold" *ngIf="exitoMensaje || errorMensaje"  class="error-message">
+  {{ exitoMensaje }}
+  {{ errorMensaje }}
 </div>
