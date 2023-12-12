@@ -47,6 +47,10 @@ public class SistemaFichajes {
         Empleado empleado= EmpleadoMapper.INSTANCE.empleadoInputToEmpleado(empleadoInputDto);
         empleado.setPersona(personRepository.findById(empleadoInputDto.getId_persona()).orElseThrow());
         empleadoRepository.save(empleado);
+        EmpleadoInputDto empleadoInputDto2=new EmpleadoInputDto("2","2", "Front");
+        Empleado empleado2= EmpleadoMapper.INSTANCE.empleadoInputToEmpleado(empleadoInputDto2);
+        empleado2.setPersona(personRepository.findById(empleadoInputDto2.getId_persona()).orElseThrow());
+        empleadoRepository.save(empleado2);
     }
 
 }

@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 
+@CrossOrigin
 @RestController()
 @RequestMapping("transaccion")
 public class RestControllerTransacciones {
@@ -66,7 +67,8 @@ public class RestControllerTransacciones {
         logger.info("NUEVA TRANSACCION RECIBIDA:");
         FichajeOutputDto fichajeOutputDto=fichajeService.getFichajeEntrada(idEmpleado);
         Fichaje fichaje=FichajeMapper.INSTANCE.fichajeInputToFichaje(new FichajeInputDto(fichajeOutputDto.getId_fichaje(),fichajeOutputDto.getId_empleado(),fichajeOutputDto.getTimeEntry().getTime(),fichajeOutputDto.getTimeExit().getTime()));
-        Transaccion transaccion= transaccion1!=null ? transaccion1 : new Transaccion(new byte[256], fichaje,new byte[256]);
+        System.out.println(fichaje.getId_fichaje()+"  "+ fichaje.getTimeEntry());
+        Transaccion transaccion=new Transaccion(new byte[256], fichaje,new byte[256]);
         transaccion.setEsCoinbase(true);
         System.out.println(transaccion);
         System.out.println("\n");

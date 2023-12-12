@@ -57,6 +57,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
 
+    public Persona getPersonByUser(String user){
+        return personRepository.findByUser(user).orElseThrow(()->new NoSuchElementException("No existe el usuario"));
+    }
 
 
     public List<Persona> getPersonByName(String nombre){

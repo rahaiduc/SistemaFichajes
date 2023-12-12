@@ -1,0 +1,23 @@
+<!-- login.component.html -->
+
+<div id="contenedor">
+  <div id="central">
+    <div id="login">
+      <div class="titulo">
+        Bienvenido
+      </div>
+      <form id="loginform" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMensaje" class="error-message">
+            {{ errorMensaje }}
+        </div>
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" [(ngModel)]="usuario" required>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" id="password" [(ngModel)]="password" required>
+
+        <button type="submit">Iniciar sesión</button>
+      </form>
+    </div>
+  </div>
+</div>

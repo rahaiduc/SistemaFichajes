@@ -6,6 +6,7 @@ import com.sistemafichajes.application.impl.PersonServiceImpl;
 import com.sistemafichajes.controller.dto.inputs.EmpleadoInputDto;
 import com.sistemafichajes.controller.dto.inputs.FichajeInputDto;
 import com.sistemafichajes.controller.dto.inputs.PersonInputDto;
+import com.sistemafichajes.controller.dto.inputs.UserInput;
 import com.sistemafichajes.controller.dto.outputs.EmpleadoOutputDto;
 import com.sistemafichajes.controller.dto.outputs.FichajeOutputDto;
 import com.sistemafichajes.controller.dto.outputs.PersonOutputDto;
@@ -36,7 +37,8 @@ public class ControllerEmpleado {
     EmpleadoServiceImpl empleadoService;
     @Autowired
     FichajeServiceImpl fichajeService;
-
+    @Autowired
+    PersonServiceImpl personService;
 
 
     @PostMapping
@@ -53,6 +55,15 @@ public class ControllerEmpleado {
     @GetMapping("/{id}")
     public EmpleadoOutputDto getEmpleadoById(@PathVariable String id) {
         return empleadoService.getEmpleadoById(id);
+    }
+
+    @PostMapping("/login")
+    public EmpleadoOutputDto login(@RequestBody UserInput userInput) {
+        Persona p=personService.getPersonByUser(userInput.getUsuario());
+        if(!p.getPassword().equals(userInput.getPassword())){
+            throw new NoSuchElementException("No coincide la contraseña");
+        }
+        return p.getEmpleado().EmpleadoToEmpleadoOutput();
     }
 
     @GetMapping("/getall")

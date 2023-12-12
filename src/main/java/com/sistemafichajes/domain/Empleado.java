@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Empleado {
+public class Empleado{
     @Id
     @GeneratedValue(generator = "custom-string-id-generator")
     @GenericGenerator(name = "custom-string-id-generator", strategy = "com.sistemafichajes.domain.GeneradoresId.GeneradorIdPersona")

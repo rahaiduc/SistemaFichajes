@@ -8,17 +8,22 @@ import { Observable } from 'rxjs';
 })
 export class FichajeService {
   private baseUrl = 'http://localhost:9080'; // Reemplaza con la URL de tu backend
-
-  constructor(private http: HttpClient) { }
+  empleado: any;
+  constructor(private http: HttpClient) {
+    const usuarioString = sessionStorage.getItem('usuario');
+    if (usuarioString) {
+      this.empleado = JSON.parse(usuarioString);
+    }
+  }
 
   obtenerFichajes(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/empleado/mostrarfichajes/1`);
+    return this.http.get(`${this.baseUrl}/empleado/mostrarfichajes/`+this.empleado.id_empleado);
   }
   registrarEntrada():Observable<any> {
-    return this.http.get(`${this.baseUrl}/empleado/addfichaje/1`);
+    return this.http.get(`${this.baseUrl}/empleado/addfichaje/`+this.empleado.id_empleado);
   }
 
   registrarSalida():Observable<any> {
-    return this.http.post(`${this.baseUrl}/transaccion/1`,{});
+    return this.http.post(`${this.baseUrl}/transaccion/`+this.empleado.id_empleado,{});
   }
 }
